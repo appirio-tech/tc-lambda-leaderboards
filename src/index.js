@@ -50,7 +50,7 @@ exports.handler = function(event, context) {
         es.search({
           index: 'members',
           type: 'profile',
-          body: 
+          body: query
         }).then(function(resp) {
           var content = resp.hits.hits.map(function(obj) {
             // remove suggest prop from response
@@ -65,7 +65,7 @@ exports.handler = function(event, context) {
       break
     
     default:
-      context.fail(new Error('400_BAD_REQUEST: Unrecognized operation "' + operation + '"'));
+      context.fail(new Error('400_BAD_REQUEST: Unrecognized type "' + type + '"'));
   }
 }
 

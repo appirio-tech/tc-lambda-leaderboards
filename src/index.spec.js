@@ -104,8 +104,7 @@ describe('When receiving a valid search request', function() {
             ],
             "skills": [{
               "score": 22,
-              "name"
-              "javascript",
+              "name": "javascript",
               "id": 222,
               "sources": ["CHALLENGE"]
             }]
@@ -133,7 +132,7 @@ describe('When receiving a valid search request', function() {
     var spy = sinon.spy(es, 'search')
     it('should be a valid response', function() {
       var result = resp.success.result
-      // console.log(result)
+      console.log(result)
       expect(spy.calledOnce).to.be.true
       expect(resp.success.result).to.not.be.null
       expect(result.success).to.be.true
