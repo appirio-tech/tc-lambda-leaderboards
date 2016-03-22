@@ -1,0 +1,6 @@
+.env
+deploy.env
+node_modules/
+dist/
+dist.zip
+npm-debug.log

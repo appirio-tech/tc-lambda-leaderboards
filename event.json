@@ -1,0 +1,13 @@
+{
+ "stage" : "test-invoke-stage",
+ "requestId" : "test-invoke-request",
+ "resourcePath" : "/v3/sample",
+ "resourceId" : "dxtdde",
+ "httpMethod" : "GET",
+ "sourceIp" : "test-invoke-source-ip",
+ "userAgent" : "Apache-HttpClient/4.3.4 (java 1.5)",
+ "caller" : "AIDAJJMZ5ZCBYPW45NZRC",
+ "body": "{}",
+ "queryParams": {
+  "filter": "type%3DMEMBER_SKILL%26name%3Djava"}
+}
