@@ -28,9 +28,9 @@ String.prototype.endsWith = function(str) {
 
 
 var PI_EXCLUDE_LIST = ["financial", "firstName", "lastName", "addresses", "email"]
-/**
- * Entry point for lambda function handler
- */
+  /**
+   * Entry point for lambda function handler
+   */
 exports.handler = function(event, context) {
   console.log('Received event:', JSON.stringify(event, null, 2));
   var filter = _.get(event, 'queryParams.filter', '')
@@ -43,7 +43,7 @@ exports.handler = function(event, context) {
     case 'MEMBER_SKILL':
       // make sure name param was passed is non-empty
       var skillName = _.get(filter, 'name', '')
-        query = getQuery(type, {skillName: skillName})
+      query = getQuery(type, { skillName: skillName })
       if (skillName.length == 0) {
         context.fail(new Error("400_BAD_REQUEST: 'name' param is currently required to filter"));
       } else if (!query) {
@@ -64,7 +64,7 @@ exports.handler = function(event, context) {
         })
       }
       break
-    
+
     default:
       context.fail(new Error('400_BAD_REQUEST: Unrecognized type "' + type + '"'));
   }
@@ -102,11 +102,16 @@ function getQuery(queryName, data) {
         "from": 0,
         "size": 10,
         "query": {
-          "nested": {
-            "path": "skills",
+          "filtered": {
             "query": {
-              "match": { "skills.name": data.skillName }
-            }
+              "nested": {
+                "path": "skills",
+                "query": {
+                  "match": { "skills.name": data.skillName }
+                }
+              }
+            },
+            "filter": { "term": { "status": "active" } }
           }
         },
         "sort": [{
@@ -121,11 +126,12 @@ function getQuery(queryName, data) {
           },
           { "wins": "desc" }
         ],
-        "_source": { 
+        "_source": {
           "include": ["id", "handle", "maxRating", "skills.name", "skills.score", "stats", "photoURL", "description"],
-          "exclude": PI_EXCLUDE_LIST}
+          "exclude": PI_EXCLUDE_LIST
+        }
       }
-    default: 
+    default:
       return null
   }
 }
