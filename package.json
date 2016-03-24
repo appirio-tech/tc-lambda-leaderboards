@@ -1,5 +1,5 @@
 {
-  "name": "tc-lambda-sample",
+  "name": "tc-lambda-leaderboards",
   "version": "1.0.0",
   "description": "lambda function for tags",
   "main": "index.js",

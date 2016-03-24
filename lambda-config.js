@@ -9,6 +9,6 @@ module.exports = {
   handler: 'index.handler',
   functionName: 'tc-leaderboards',
   timeout: 5,
-  memorySize: 128
+  memorySize: 256
   // eventSource: {}
 }

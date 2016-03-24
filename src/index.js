@@ -26,6 +26,8 @@ String.prototype.endsWith = function(str) {
   return (lastIndex !== -1) && (lastIndex + str.length === this.length);
 }
 
+
+var PI_EXCLUDE_LIST = ["financial", "firstName", "lastName", "addresses", "email"]
 /**
  * Entry point for lambda function handler
  */
@@ -53,8 +55,7 @@ exports.handler = function(event, context) {
           body: query
         }).then(function(resp) {
           var content = resp.hits.hits.map(function(obj) {
-            // remove suggest prop from response
-            delete obj._source.suggest
+            obj._source.skills = _.sortBy(obj._source.skills).reverse()
             return obj._source;
           });
           context.succeed(wrapResponse(context, 200, content, resp.hits.total))
@@ -95,6 +96,8 @@ function wrapResponse(context, status, body, count) {
 function getQuery(queryName, data) {
   switch (queryName) {
     case 'MEMBER_SKILL':
+      // make sure skill name is set to lowercase until ES mapping is changed to use case insensitve results
+      data.skillName = data.skillName.toLowerCase()
       return {
         "from": 0,
         "size": 10,
@@ -118,7 +121,9 @@ function getQuery(queryName, data) {
           },
           { "wins": "desc" }
         ],
-        "_source": { "exclude": ['financial', 'firstName', 'lastName', 'addresses', 'email']}
+        "_source": { 
+          "include": ["id", "handle", "maxRating", "skills.name", "skills.score", "stats", "photoURL", "description"],
+          "exclude": PI_EXCLUDE_LIST}
       }
     default: 
       return null

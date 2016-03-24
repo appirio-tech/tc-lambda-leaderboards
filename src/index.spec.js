@@ -107,6 +107,12 @@ describe('When receiving a valid search request', function() {
               "name": "javascript",
               "id": 222,
               "sources": ["CHALLENGE"]
+            },
+            {
+              "score": 33,
+              "name": "AngularJS",
+              "id": 222,
+              "sources": ["CHALLENGE"]
             }]
           }
         }]
@@ -139,6 +145,9 @@ describe('When receiving a valid search request', function() {
       expect(result.metadata).to.deep.equal({ totalCount: 1 })
       expect(result.status).to.equal(200)
       expect(result.content).to.have.lengthOf(1)
+      // skills length and order
+      expect(result.content[0].skills).to.have.lengthOf(2)
+      expect(result.content[0].skills[0]).to.be.at.least(result.content[0].skills[1])
     })
   })
 })
