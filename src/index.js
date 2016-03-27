@@ -127,7 +127,7 @@ function getQuery(queryName, data) {
           { "wins": "desc" }
         ],
         "_source": {
-          "include": ["tracks", "competitionCountryCode", "wins", "userId", "handle", "maxRating", "skills.name", "skills.score", "stats", "photoURL", "description"],
+          "include": ["createdAt", "tracks", "competitionCountryCode", "wins", "userId", "handle", "maxRating", "skills.name", "skills.score", "stats", "photoURL", "description"],
           "exclude": PI_EXCLUDE_LIST
         }
       }
