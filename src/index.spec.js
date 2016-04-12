@@ -130,7 +130,7 @@ describe('When receiving a valid search request', function() {
     "caller": "AIDAJJMZ5ZCBYPW45NZRC",
     "body": "{}",
     "queryParams": {
-      "filter": "type%3DMEMBER_SKILL%26name%3Djava"
+      "filter": "type%3DMEMBER_SKILL%26id%3D247"
     }
   }, ctx, resp)
 
