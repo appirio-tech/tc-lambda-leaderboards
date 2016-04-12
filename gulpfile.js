@@ -1,10 +1,10 @@
 var gulp = require('gulp');
-var runSequence = require('run-sequence');
 require('tc-lambda-gulp-tasks')(gulp);
-var path = require('path');
+
+var runSequence = require('run-sequence');
 
 gulp.task('test', function(cb) {
-  var lc = require("./lambda-config.js")
+  var lc = require('./lambda-config.js')
   console.log(lc);
   return cb
 })
