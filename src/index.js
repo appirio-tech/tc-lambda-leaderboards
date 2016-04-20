@@ -1,6 +1,6 @@
-/** == Imports == */
 var AWS = require('aws-sdk');
 var _   = require('lodash');
+var querystring = require('querystring')
 
 /*
  * The AWS credentials are picked up from the environment.
@@ -10,7 +10,6 @@ var _   = require('lodash');
  * to the role.
  */
 var creds = new AWS.EnvironmentCredentials('AWS');
-var querystring = require('querystring')
 var es = require('elasticsearch').Client({
   hosts: process.env.MEMBER_ES_HOST,
   apiVersion: '1.5',
@@ -21,18 +20,12 @@ var es = require('elasticsearch').Client({
   }
 });
 
-String.prototype.endsWith = function(str) {
-  var lastIndex = this.lastIndexOf(str);
-  return (lastIndex !== -1) && (lastIndex + str.length === this.length);
-}
-
 var PI_EXCLUDE_LIST = ['financial', 'firstName', 'lastName', 'addresses', 'email']
 
-// Entry point for lambda function handler
 exports.handler = function(event, context) {
   console.log('Received event:', JSON.stringify(event, null, 2));
 
-  var filter = _.get(event, 'queryParams.filter', '')
+  var filter = _.get(event, 'params.querystring.filter', '')
   filter = querystring.parse(decodeURIComponent(filter))
   var type = _.get(filter, 'type', null)
 
@@ -109,11 +102,13 @@ exports.handler = function(event, context) {
               }
             }
 
-            // console.log(JSON.stringify(response, null, 2))
+            console.log(JSON.stringify(response, null, 2))
 
             return response;
           });
+
           context.succeed(wrapResponse(context, 200, content, resp.hits.total))
+          
         }, function(err) {
           context.fail(new Error("500_INTERNAL_ERROR " + err.message));
         })

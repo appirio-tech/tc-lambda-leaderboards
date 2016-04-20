@@ -1,11 +1,42 @@
-/**
- * Add mocks here .. cos well.. just do it..
- */
+var _ = require('lodash')
 var elasticsearch = require('elasticsearch')
 var es = {}
 elasticsearch.Client = function() {
   return es
 }
+
+var mockEvent = {
+  'body-json': {},
+  params: {
+    path: {},
+    querystring: {
+      filter: 'id%3D247%26type%3DMEMBER_SKILL'
+    },
+    header: {}
+  },
+  'stage-variables': {},
+  context: {
+    'account-id': '811668436784',
+    'api-id': 'bd1cmoh5ag',
+    'api-key': 'test-invoke-api-key',
+    'authorizer-principal-id': '',
+    caller: 'AIDAJUYC3TUFF3VEGQ5PQ',
+    'cognito-authentication-provider': '',
+    'cognito-authentication-type': '',
+    'cognito-identity-id': '',
+    'cognito-identity-pool-id': '',
+    'http-method': 'GET',
+    stage: 'test-invoke-stage',
+    'source-ip': 'test-invoke-source-ip',
+    user: 'AIDAJUYC3TUFF3VEGQ5PQ',
+    'user-agent': 'Apache-HttpClient/4.3.4 (java 1.5)',
+    'user-arn': 'arn:aws:iam::811668436784:user/nlitwin',
+    'request-id': 'test-invoke-request',
+    'resource-id': 'm3zey8',
+    'resource-path': '/v3/members/_search'
+  }
+}
+
 require('es6-promise').polyfill();
 
 var chai = require("chai");
@@ -14,7 +45,7 @@ var expect = require("chai").expect,
 
 sinon = require("sinon");
 chai.use(require('sinon-chai'));
-const context = require('aws-lambda-mock-context');
+var context = require('aws-lambda-mock-context');
 
 var testLambda = function(event, ctx, resp) {
   // Fires once for the group of tests, done is mocha's callback to 
@@ -38,23 +69,11 @@ var testLambda = function(event, ctx, resp) {
 
 describe('When receiving an invalid request', function() {
   var resp = { success: null, error: null };
-  const ctx = context()
-  testLambda({
-    "stage": "test-invoke-stage",
-    "requestId": "test-invoke-request",
-    "resourcePath": "/v3/tags1",
-    "resourceId": "dxtdde",
-    "httpMethod": "GET",
-    "sourceIp": "test-invoke-source-ip",
-    "userAgent": "Apache-HttpClient/4.3.4 (java 1.5)",
-    "caller": "AIDAJJMZ5ZCBYPW45NZRC",
-    "body": "{}",
-    "queryParams": {
-      "filter": "type%3Djava",
-      "sort": "min",
-      "fields": "a1,a2"
-    }
-  }, ctx, resp)
+  var ctx = context()
+  var myMock = _.cloneDeep(mockEvent)
+  myMock.params.querystring.filter = 'type%3DINVALID_TYPE%26id%3D247'
+
+  testLambda(myMock, ctx, resp)
 
   describe('then response object ', function() {
     it('should be an error object', function() {
@@ -71,7 +90,7 @@ describe('When receiving an invalid request', function() {
 
 describe('When receiving a valid search request', function() {
   var resp = { success: null, error: null }
-  const ctx = context()
+  var ctx = context()
 
   es.search = function(input) {
     return Promise.resolve({
@@ -119,20 +138,8 @@ describe('When receiving a valid search request', function() {
       }
     })
   }
-  testLambda({
-    "stage": "test-invoke-stage",
-    "requestId": "test-invoke-request",
-    "resourcePath": "/v3/tags",
-    "resourceId": "dxtdde",
-    "httpMethod": "GET",
-    "sourceIp": "test-invoke-source-ip",
-    "userAgent": "Apache-HttpClient/4.3.4 (java 1.5)",
-    "caller": "AIDAJJMZ5ZCBYPW45NZRC",
-    "body": "{}",
-    "queryParams": {
-      "filter": "type%3DMEMBER_SKILL%26id%3D247"
-    }
-  }, ctx, resp)
+
+  testLambda(mockEvent, ctx, resp)
 
   describe('then success response ', function() {
     var spy = sinon.spy(es, 'search')

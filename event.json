@@ -1,13 +1,31 @@
 {
- "stage" : "test-invoke-stage",
- "requestId" : "test-invoke-request",
- "resourcePath" : "/v3/sample",
- "resourceId" : "dxtdde",
- "httpMethod" : "GET",
- "sourceIp" : "test-invoke-source-ip",
- "userAgent" : "Apache-HttpClient/4.3.4 (java 1.5)",
- "caller" : "AIDAJJMZ5ZCBYPW45NZRC",
- "body": "{}",
- "queryParams": {
-  "filter": "type%3DMEMBER_SKILL%26id%3D247"}
+  "body-json": {},
+  "params": {
+    "path": {},
+    "querystring": {
+      "filter": "id%3D247%26type%3DMEMBER_SKILL"
+    },
+    "header": {}
+  },
+  "stage-variables": {},
+  "context": {
+    "account-id": "811668436784",
+    "api-id": "bd1cmoh5ag",
+    "api-key": "test-invoke-api-key",
+    "authorizer-principal-id": "",
+    "caller": "AIDAJUYC3TUFF3VEGQ5PQ",
+    "cognito-authentication-provider": "",
+    "cognito-authentication-type": "",
+    "cognito-identity-id": "",
+    "cognito-identity-pool-id": "",
+    "http-method": "GET",
+    "stage": "test-invoke-stage",
+    "source-ip": "test-invoke-source-ip",
+    "user": "AIDAJUYC3TUFF3VEGQ5PQ",
+    "user-agent": "Apache-HttpClient/4.3.4 (java 1.5)",
+    "user-arn": "arn:aws:iam::811668436784:user/nlitwin",
+    "request-id": "test-invoke-request",
+    "resource-id": "xwsv2m",
+    "resource-path": "/v3/leaderboards"
+  }
 }
