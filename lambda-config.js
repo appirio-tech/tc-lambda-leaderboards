@@ -8,7 +8,7 @@ module.exports = {
   region: 'us-east-1',
   handler: 'index.handler',
   functionName: 'tc-leaderboards',
-  timeout: 5,
-  memorySize: 256
+  timeout: 180,
+  memorySize: 512
   // eventSource: {}
 }
