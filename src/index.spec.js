@@ -6,7 +6,7 @@ elasticsearch.Client = function() {
 }
 
 var mockEvent = {
-  'body-json': {},
+  'body': {},
   params: {
     path: {},
     querystring: {
@@ -37,7 +37,6 @@ var mockEvent = {
   }
 }
 
-require('es6-promise').polyfill();
 
 var chai = require("chai");
 var expect = require("chai").expect,
