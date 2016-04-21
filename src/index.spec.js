@@ -6,7 +6,7 @@ elasticsearch.Client = function() {
 }
 
 var mockEvent = {
-  'body-json': {},
+  'body': {},
   params: {
     path: {},
     querystring: {
